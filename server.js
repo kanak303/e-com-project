@@ -1,15 +1,20 @@
 import express from "express";
 import productRoutes from "./src/routes/productRoutes.js";
 import { errorHandler } from "./src/middlewares/errorHandler.js";
+import { config } from "./src/config/config.js"; 
 
 const app = express();
-app.use(express.json());
-app.use(errorHandler);
 
+// Middlewares
+app.use(express.json());
+
+// Routes
 app.use("/api/v1/products", productRoutes);
 
-app.use((req, res) => {
-  res.status(404).json({ success: false, message: "Route not found" });
-});
+// Error handler 
+app.use(errorHandler);
 
-app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+// Start server using PORT from .env/config
+app.listen(config.port, () => {
+  console.log(`Server running on http://localhost:${config.port}`);
+});
