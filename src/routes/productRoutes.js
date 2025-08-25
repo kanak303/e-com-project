@@ -7,8 +7,10 @@ import {
   updateProduct,
   deleteProduct,
 } from "../controllers/productController.js";
+
 const router = Router();
-// post
+
+// Create product
 router.post(
   "/",
   [
@@ -22,13 +24,13 @@ router.post(
   createProduct,
 );
 
+// List products
 router.get("/", listProducts);
 
+// Get product by ID
 router.get("/:id", getProductById);
 
-router.delete("/:id", deleteProduct);
-
-router.put("/:id", updateProduct);
+// Update product
 router.put(
   "/:id",
   [
@@ -39,5 +41,8 @@ router.put(
   ],
   updateProduct,
 );
+
+// Delete product
+router.delete("/:id", deleteProduct);
 
 export default router;

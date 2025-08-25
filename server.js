@@ -1,20 +1,13 @@
-import express from "express";
-import productRoutes from "./src/routes/productRoutes.js";
-import { errorHandler } from "./src/middlewares/errorHandler.js";
-import { config } from "./src/config/config.js"; 
+import { config, connectDB, sequelize } from "./src/config/config.js";
+import app from "./app.js";
 
-const app = express();
+const startServer = async () => {
+  await connectDB();
+  await sequelize.sync({ alter: true });
 
-// Middlewares
-app.use(express.json());
+  app.listen(config.port, () => {
+    console.log(`Server running on port ${config.port}`);
+  });
+};
 
-// Routes
-app.use("/api/v1/products", productRoutes);
-
-// Error handler 
-app.use(errorHandler);
-
-// Start server using PORT from .env/config
-app.listen(config.port, () => {
-  console.log(`Server running on http://localhost:${config.port}`);
-});
+startServer();
