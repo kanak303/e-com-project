@@ -16,7 +16,6 @@ export const config = {
   },
 };
 
-
 export const sequelize = new Sequelize(
   config.db.name,
   config.db.user,
@@ -26,15 +25,15 @@ export const sequelize = new Sequelize(
     port: config.db.port,
     dialect: "mysql",
     logging: false,
-  },
+  }
 );
 
-// DB connection function
+// DB connection
 export const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    console.log("Database connected successfully!");
+    console.log(" Database connected successfully!");
   } catch (error) {
-    console.error("Not to connect to DB:", error);
+    console.error("Failed to connect DB:", error);
   }
 };

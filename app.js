@@ -2,6 +2,7 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import productRoutes from "./src/routes/productRoutes.js";
+import authRoutes from "./src/routes/";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.get("/health", (_req, res) => {
 
 // Routes
 app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 // 404 handler
 app.use((req, res) => {
