@@ -1,5 +1,6 @@
-import { Router } from "express";
+import express from 'express';
 import { body } from "express-validator";
+import passport from 'passport';
 import {
   createProduct,
   listProducts,
@@ -8,7 +9,7 @@ import {
   deleteProduct,
 } from "../controllers/productController.js";
 
-const router = Router();
+const router = express.Router();
 
 // Create product
 router.post(
@@ -23,26 +24,24 @@ router.post(
   ],
   createProduct,
 );
+router.get("/", passport.authenticate("jwt", { session: false }), listProducts);
 
-// List products
-router.get("/", listProducts);
+router.get("/:id", passport.authenticate("jwt", { session: false }), getProductById);
 
-// Get product by ID
-router.get("/:id", getProductById);
-
-// Update product
 router.put(
   "/:id",
+  passport.authenticate("jwt", { session: false }),
   [
-    body("name").optional().notEmpty(),
-    body("price").optional().isNumeric(),
-    body("sku").optional().notEmpty(),
-    body("stock").optional().isInt({ min: 0 }),
+    body("name").optional().notEmpty().withMessage("Name cannot be empty"),
+    body("price").optional().isNumeric().withMessage("Price must be a number"),
+    body("sku").optional().notEmpty().withMessage("SKU cannot be empty"),
+    body("stock").optional().isInt({ min: 0 }).withMessage("Stock must be a non-negative integer"),
   ],
-  updateProduct,
+  updateProduct
 );
 
-// Delete product
-router.delete("/:id", deleteProduct);
+router.delete("/:id", passport.authenticate("jwt", { session: false }), deleteProduct);
 
 export default router;
+
+

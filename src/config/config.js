@@ -10,12 +10,12 @@ export const config = {
   db: {
     name: process.env.DB_NAME || "ecommerce_db",
     user: process.env.DB_USER || "root",
-    pass: process.env.DB_PASS || "123456789",
+    pass: process.env.DB_PASS || "", 
     host: process.env.DB_HOST || "127.0.0.1",
     port: process.env.DB_PORT || 3306,
   },
 };
-
+console.log("DB Config:", config.db); 
 export const sequelize = new Sequelize(
   config.db.name,
   config.db.user,
